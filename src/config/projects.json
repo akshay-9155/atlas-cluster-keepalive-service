@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Trackdeck",
+    "url": "http://localhost:5000/api/v1/health/check",
+    "method": "GET",
+    "isActive": true
+  },
+  {
+    "name": "project-2",
+    "url": "https://project2.com/api/v1/health",
+    "method": "GET",
+    "isActive": false
+  }
+]
