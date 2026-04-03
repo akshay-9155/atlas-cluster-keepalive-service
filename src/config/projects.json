@@ -1,7 +1,7 @@
 [
   {
     "name": "Trackdeck",
-    "url": "http://localhost:5000/api/v1/health/check",
+    "url": "https://trackdeck-backend.onrender.com/api/v1/health/check",
     "method": "GET",
     "isActive": true
   },
