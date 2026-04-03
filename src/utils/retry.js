@@ -1,11 +1,13 @@
 const pRetry = require("p-retry").default;
 
-const retry = async (fn, retries = 3) => {
+const retry = async (fn, retries = 2) => {
   return pRetry(fn, {
     retries,
+    minTimeout: 2000,
+    maxTimeout: 5000,
+    factor: 2,
     onFailedAttempt: error => {
-      console.log(error);
-      const status = error?.response?.status;
+      const status = error.status;
       console.log(
         `Attempt ${error.attemptNumber} failed. ${error.retriesLeft} retries left.`
       );

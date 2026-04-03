@@ -5,9 +5,9 @@ const log = (level, message, meta = {}) => {
     message,
     ...meta,
   };
-  if(level === "ERROR"){
-    console.log(JSON.stringify(logEntry));
-  }
+  console.log(JSON.stringify(logEntry));
+  // if(level === "ERROR"){
+  // }
 };
 
 module.exports = {

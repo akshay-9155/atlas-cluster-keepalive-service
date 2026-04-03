@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { callEndpoint } = require("./request.service");
 const logger = require("../utils/logger");
+const { sleep } = require("../utils/helper");
 
 const PROJECTS_PATH = path.join(__dirname, "../config/projects.json");
 
@@ -15,19 +16,19 @@ const runHealthChecks = async () => {
 
   const projects = loadProjects();
 
-  await Promise.allSettled(
-    projects.map(async (project) => {
-      try {
-        if (!project.isActive) return;
-        await callEndpoint(project);
-      } catch (err) {
-        logger.error("Health check failed", {
-          project: project.name,
-          error: err.message,
-        });
-      }
-    })
-  );
+   for (const project of projects) {
+    if (!project.isActive) continue;
+
+    try {
+      await callEndpoint(project);
+      await sleep(1500);
+    } catch (err) {
+      logger.error("Health check failed", {
+        project: project.name,
+        error: err.message,
+      });
+    }
+  }
 
   logger.info("Health checks completed");
 };
