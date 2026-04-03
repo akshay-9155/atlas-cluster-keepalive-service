@@ -43,13 +43,25 @@ This ensures your database-backed applications stay responsive and ready.
 ```
 .
 ├── src/
-│   ├── index.js          # Entry point
-│   ├── runner.js         # Core logic to hit endpoints
-│   ├── retry.js          # Retry utility
+│   ├── config/
+│   │   └── projects.json        # List of endpoints to ping
+│   │
+│   ├── services/
+│   │   ├── cron.service.js     # Handles scheduled execution logic
+│   │   └── request.service.js  # Handles HTTP requests to target endpoints
+│   │
+│   ├── utils/
+│   │   ├── logger.js           # Logging utility
+│   │   └── retry.js            # Retry mechanism for failed requests
+│   │
+│   ├── app.js                  # Express app configuration
+│   └── server.js               # Server entry point
 │
-├── projects.json         # List of endpoints to ping
-├── .env                  # Environment variables
+├── node_modules/
+├── .env                        # Environment variables
+├── .gitignore
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
