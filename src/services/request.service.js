@@ -32,6 +32,7 @@ const callEndpoint = async (project) => {
 
       return res.data;
     } catch (err) {
+      console.log(err);
       err.status = err?.response?.status;
       throw err;
     }
