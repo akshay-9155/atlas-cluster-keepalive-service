@@ -20,6 +20,7 @@ const callEndpoint = async (project) => {
         method: project.method || "GET",
         url: project.url,
       });
+      console.log(res);
 
       const duration = Date.now() - start;
 
