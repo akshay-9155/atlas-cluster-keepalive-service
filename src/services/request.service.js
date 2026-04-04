@@ -12,51 +12,30 @@ const axiosInstance = axios.create({
 
 
 const callEndpoint = async (project) => {
-  try {
-    const res = await axios.get(project.url);
-    console.log("Success:", res.status);
+  return retry(async () => {
+    const start = Date.now();
 
-    logger.info("Health check success", {
-      project: project.name,
-      status: res.status,
-    });
-  } catch (error) {
-    console.log(error?.response);
-    logger.error("Health check failed", {
-      project: project.name,
-      status: error.status || 500,
-      message: error.message,
-    });
-  }
+    try {
+      const res = await axiosInstance({
+        method: project.method || "GET",
+        url: project.url,
+      });
+      console.log(res);
 
-  // return retry(async () => {
-  //   const start = Date.now();
+      const duration = Date.now() - start;
 
-  //   try {
-  //     const res = await axiosInstance({
-  //       method: project.method || "GET",
-  //       url: project.url,
-  //     });
-  //     console.log(res);
+      logger.info("Health check success", {
+        project: project.name,
+        status: res.status,
+        duration,
+      });
 
-  //     const duration = Date.now() - start;
-
-  //     logger.info("Health check success", {
-  //       project: project.name,
-  //       status: res.status,
-  //       duration,
-  //     });
-
-  //     return res.data;
-  //   } catch (err) {
-  //     console.log(err?.error);
-  //     console.log(err?.response);
-  //     console.log(err?.message);
-  //     console.log(err?.status);
-  //     err.status = err.response?.status || err?.error?.response?.status || err.status || 500;
-  //     throw err;
-  //   }
-  // });
+      return res.data;
+    } catch (err) {
+      err.status = err?.response?.status;
+      throw err;
+    }
+  });
 };
 
 module.exports = { callEndpoint };
